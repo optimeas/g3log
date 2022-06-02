@@ -19,6 +19,7 @@ set(HEADERS
     include/g3log/logcapture.hpp
     include/g3log/logmessage.hpp
     include/g3log/sink.hpp
+    include/g3log/rotatingfilesink.hpp
 )
 
 set(SOURCES
@@ -29,6 +30,7 @@ set(SOURCES
     logmessage.cpp
     logworker.cpp
     time.cpp
+    rotatingfilesink.cpp
 )
 
 IF (MSVC OR MINGW)
