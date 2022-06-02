@@ -30,9 +30,21 @@
 #include <functional>
 
 
+/* With the code below the __PRETTY_FUNCTION__ symbol is hidden unintentionally.
+ *
+ * In GCC the symbol __PRETTY_FUNCTION__ is valid (in a function) but not a macro.
+ * See:
+ * https://gcc.gnu.org/onlinedocs/gcc/Function-Names.html
+ * https://stackoverflow.com/a/33806001/243879
+ * https://github.com/KjellKod/g3log/issues/230
+ *
+ * This produces very wierd error messages in conjunction with Qt6.
+ * As the symbol is well defined, we simply comment the block...
+ *
 #if !(defined(__PRETTY_FUNCTION__))
 #define __PRETTY_FUNCTION__   __FUNCTION__
 #endif
+*/
 
 // thread_local doesn't exist before VS2013
 // it exists on VS2015
