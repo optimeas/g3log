@@ -94,6 +94,7 @@ namespace g3 {
 const LEVELS G3LOG_DEBUG{g3::kDebugValue, {"DEBUG"}},
    INFO {g3::kInfoValue, {"INFO"}},
    WARNING {g3::kWarningValue, {"WARNING"}},
+   ERR {g3::kWarningValue, {"ERROR"}},
    FATAL {g3::kFatalValue, {"FATAL"}};
 
 
