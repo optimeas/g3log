@@ -30,21 +30,13 @@
 #include <functional>
 
 
-/* With the code below the __PRETTY_FUNCTION__ symbol is hidden unintentionally.
- *
- * In GCC the symbol __PRETTY_FUNCTION__ is valid (in a function) but not a macro.
- * See:
- * https://gcc.gnu.org/onlinedocs/gcc/Function-Names.html
- * https://stackoverflow.com/a/33806001/243879
- * https://github.com/KjellKod/g3log/issues/230
- *
- * This produces very wierd error messages in conjunction with Qt6.
- * As the symbol is well defined, we simply comment the block...
- *
-#if !(defined(__PRETTY_FUNCTION__))
-#define __PRETTY_FUNCTION__   __FUNCTION__
+#if defined(__GNUC__)   // GCC extension compatible
+#define G3LOG_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#elif defined(_MSC_VER) // Microsoft
+#define G3LOG_PRETTY_FUNCTION __FUNCSIG__
+#else                   // Fallback to c99 / c++11
+#define G3LOG_PRETTY_FUNCTION __func__
 #endif
-*/
 
 // thread_local doesn't exist before VS2013
 // it exists on VS2015
@@ -150,10 +142,10 @@ namespace g3 {
    } // internal
 } // g3
 
-#define INTERNAL_LOG_MESSAGE(level) LogCapture(__FILE__, __LINE__, static_cast<const char*>(__PRETTY_FUNCTION__), level)
+#define INTERNAL_LOG_MESSAGE(level) LogCapture(__FILE__, __LINE__, static_cast<const char*>(G3LOG_PRETTY_FUNCTION), level)
 
 #define INTERNAL_CONTRACT_MESSAGE(boolean_expression)  \
-   LogCapture(__FILE__, __LINE__, __PRETTY_FUNCTION__, g3::internal::CONTRACT, boolean_expression)
+   LogCapture(__FILE__, __LINE__, G3LOG_PRETTY_FUNCTION, g3::internal::CONTRACT, boolean_expression)
 
 
 // LOG(level) is the API for the stream log
