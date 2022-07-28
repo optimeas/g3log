@@ -126,6 +126,7 @@ namespace g3 {
 
 #endif
 
+#define G3_UNUSED(expr) do { (void)(expr); } while (0)
 
    bool logLevel(const LEVELS& log_level) {
 #ifdef G3_DYNAMIC_LOGGING
@@ -133,6 +134,7 @@ namespace g3 {
       bool status = internal::g_log_levels[level].status.value();
       return status;
 #else
+       G3_UNUSED(log_level);
       return true;
 #endif
    }
