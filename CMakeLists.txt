@@ -20,7 +20,6 @@ set(HEADERS
     include/g3log/logmessage.hpp
     include/g3log/sink.hpp
     include/g3log/rotatingfilesink.hpp
-    include/g3log/log.hpp
 )
 
 set(SOURCES
@@ -32,7 +31,7 @@ set(SOURCES
     logworker.cpp
     time.cpp
     rotatingfilesink.cpp
-    log.cpp
+
 )
 
 IF (MSVC OR MINGW)
@@ -46,12 +45,22 @@ set(SOURCES ${SOURCES}
 )
 ENDIF (MSVC OR MINGW)
 
+IF(${QT_VERSION_MAJOR})
+    set(HEADERS ${HEADERS} include/g3log/log.hpp)
+    set(SOURCES ${SOURCES} log.cpp)
+ENDIF(${QT_VERSION_MAJOR})
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
 target_link_libraries(${PROJECT_NAME}
-    Qt${QT_VERSION_MAJOR}::Core
     pthread
 )
+
+IF(${QT_VERSION_MAJOR})
+    MESSAGE(STATUS "g3log: builf with Qt support")
+    target_link_libraries(${PROJECT_NAME}
+        Qt${QT_VERSION_MAJOR}::Core
+    )
+ENDIF(${QT_VERSION_MAJOR})
 
 IF (MSVC OR MINGW)
     target_link_libraries(${PROJECT_NAME}
