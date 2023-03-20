@@ -2,6 +2,7 @@ project(g3log)
 
 
 set(HEADERS
+    include/g3log/log.hpp
     include/g3log/active.hpp
     include/g3log/g3log.hpp
     include/g3log/logworker.hpp
@@ -45,22 +46,10 @@ set(SOURCES ${SOURCES}
 )
 ENDIF (MSVC OR MINGW)
 
-IF(${QT_VERSION_MAJOR})
-    set(HEADERS ${HEADERS} include/g3log/log.hpp)
-    set(SOURCES ${SOURCES} log.cpp)
-ENDIF(${QT_VERSION_MAJOR})
-
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
 target_link_libraries(${PROJECT_NAME}
     pthread
 )
-
-IF(${QT_VERSION_MAJOR})
-    MESSAGE(STATUS "g3log: builf with Qt support")
-    target_link_libraries(${PROJECT_NAME}
-        Qt${QT_VERSION_MAJOR}::Core
-    )
-ENDIF(${QT_VERSION_MAJOR})
 
 IF (MSVC OR MINGW)
     target_link_libraries(${PROJECT_NAME}
